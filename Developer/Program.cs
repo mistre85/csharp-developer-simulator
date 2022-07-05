@@ -24,35 +24,3 @@ return;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-StreamReader clientActivity = File.OpenText("C:\\Users\\mistre\\source\\repos\\csharp-developer-simulator\\developer_activity.txt");
-
-while (!clientActivity.EndOfStream)
-{
-    string activity = clientActivity.ReadLine();
-    Console.WriteLine("Presa in carico attivtà: {0}", activity);
-
-    int resolveTime = new Random().Next(3, 16);
-    Console.WriteLine("Risoluzione in corso...");
-    Thread.Sleep(resolveTime);
-
-    bool risolta = new Random().NextDouble() > 0.5;
-
-
-}
