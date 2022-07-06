@@ -12,6 +12,7 @@
 
 //sviluppi
 
+//1. leggere tutta la lista di attività e salvarla per elaborala
 
 //1.    creare i reader e i writer per leggere dal file
 //      C:\Users\mistre\source\repos\csharp-developer-simulator\client_activity.txt
@@ -25,8 +26,6 @@
 
 //5. si ricomincia da punto 2 fino alla fine del file client_activity.txt
 
-Console.ReadLine();
-return;
 
 
 
@@ -36,21 +35,46 @@ return;
 
 
 
+using libreria;
+
+const string CLIENT_ACTIVITY_FILE = "C:\\Users\\mistre\\source\\repos\\csharp-developer-simulator\\client_activity.txt";
+const string DEVELOPER_ACTIVITY_FILE = "C:\\Users\\mistre\\source\\repos\\csharp-developer-simulator\\developer_activity.txt";
 
 
+string[] clientActivityList = File.ReadAllLines(CLIENT_ACTIVITY_FILE);
+string[] developerActivityList = File.ReadAllLines(DEVELOPER_ACTIVITY_FILE);
 
+Console.WriteLine("Sono il cliente");
 
+string lastAssignedActivity = "";
 
-
-
-
-StreamReader clientActivity = File.OpenText("C:\\Users\\mistre\\source\\repos\\csharp-developer-simulator\\client_activity.txt");
-
-while (!clientActivity.EndOfStream)
+if (developerActivityList.Length > 0)
 {
-    StreamWriter developerActivity = File.CreateText("C:\\Users\\mistre\\source\\repos\\csharp-developer-simulator\\developer_activity.txt");
-
-    string activity = clientActivity.ReadLine();
-    developerActivity.WriteLine(activity);
-
+    Console.WriteLine("Lo sviluppatore ha già in carico delle attività");
 }
+else
+{
+    Console.WriteLine("Lo sviluppatore è senza attività");
+}
+
+Console.WriteLine("Procedo con l'assegnamento delle attività");
+
+foreach (string activity in clientActivityList)
+{
+    if (developerActivityList.Contains(activity))
+    {
+        Console.WriteLine("Attività {0} già assegnata", activity);
+    }
+    else
+    {
+
+        Console.WriteLine("attività '{0}' in assegnamento al developer", activity);
+        StreamWriter developerActivityWriter = File.AppendText(DEVELOPER_ACTIVITY_FILE);
+        developerActivityWriter.WriteLine(activity);
+        developerActivityWriter.Close();
+
+    }
+    Thread.Sleep(new Random().Next(3, 5) * 1000);
+}
+
+Console.WriteLine("Ho finito per oggi, a domani");
