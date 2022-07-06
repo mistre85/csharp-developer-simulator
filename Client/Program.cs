@@ -46,7 +46,7 @@ string[] developerActivityList = File.ReadAllLines(DEVELOPER_ACTIVITY_FILE);
 
 Console.WriteLine("Sono il cliente");
 
-string lastAssignedActivity = "";
+
 
 if (developerActivityList.Length > 0)
 {
@@ -61,20 +61,46 @@ Console.WriteLine("Procedo con l'assegnamento delle attività");
 
 foreach (string activity in clientActivityList)
 {
+    Console.Write("Analisi Attività {0}. ", activity);
+
     if (developerActivityList.Contains(activity))
     {
-        Console.WriteLine("Attività {0} già assegnata", activity);
+        Console.Write("Già assegnata.", activity);
     }
     else
     {
 
-        Console.WriteLine("attività '{0}' in assegnamento al developer", activity);
-        StreamWriter developerActivityWriter = File.AppendText(DEVELOPER_ACTIVITY_FILE);
-        developerActivityWriter.WriteLine(activity);
-        developerActivityWriter.Close();
+        bool riprovo = false;
+
+        do
+        {
+            try
+            {
+
+                Console.Write("In assegnamento al developer, ", activity);
+                StreamWriter developerActivityWriter = File.AppendText(DEVELOPER_ACTIVITY_FILE);
+                developerActivityWriter.WriteLine(activity);
+                developerActivityWriter.Close();
+
+                riprovo = false;
+            }
+            catch (IOException e)
+            {
+                
+                Console.WriteLine();
+                Console.WriteLine("*** non saprei ci devo pensare ancora un attimo ...");
+                Console.WriteLine();
+
+                riprovo = true;
+            }
+        }
+        while (riprovo);
 
     }
-    Thread.Sleep(new Random().Next(3, 5) * 1000);
+
+    //Thread.Sleep(new Random().Next(30, 500));
+    Console.WriteLine();
 }
 
 Console.WriteLine("Ho finito per oggi, a domani");
+
